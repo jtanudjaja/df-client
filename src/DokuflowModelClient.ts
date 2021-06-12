@@ -23,11 +23,11 @@ export type Pagination = {
   skip?: number;
 };
 
-export type GetListOptions<T, S extends keyof T> = {
+export type GetListOptions<T, S extends keyof T, R extends keyof T> = {
   selections?: S[];
   filters?: FilterOperation<T, keyof T>[];
   pagination?: Pagination;
-  relations?: S[];
+  relations?: R[];
 };
 
 export type GetListResponse<T, S extends keyof T> = Promise<
@@ -60,8 +60,8 @@ class DokuflowModelClient<T> {
     return Axios.get(this.getBaseUrl(documentId));
   }
 
-  getList<S extends keyof DokuflowDocument<T>>(
-    options: GetListOptions<DokuflowDocument<T>, S>
+  getList<S extends keyof DokuflowDocument<T>, R extends keyof DokuflowDocument<T>>(
+    options: GetListOptions<DokuflowDocument<T>, S, R>
   ): GetListResponse<DokuflowDocument<T>, S> {
     let url = this.getBaseUrl();
 
@@ -107,8 +107,8 @@ class DokuflowModelClient<T> {
     return Axios.get(url);
   }
 
-  async getFirst<S extends keyof DokuflowDocument<T>>(
-    options: Omit<GetListOptions<DokuflowDocument<T>, S>, 'pagination'>
+  async getFirst<S extends keyof DokuflowDocument<T>, R extends keyof DokuflowDocument<T>>(
+    options: Omit<GetListOptions<DokuflowDocument<T>, S, R>, 'pagination'>
   ) {
     const listResponse = await this.getList({
       ...options,
