@@ -104,7 +104,7 @@ class DokuflowModelClient<T> {
     }
 
     if (options.relations) {
-      url += `&select=${options.relations.join(',')}`;
+      url += `&relations=${options.relations.join(',')}`;
     }
 
     return Axios.get(url);
