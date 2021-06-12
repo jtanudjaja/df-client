@@ -1,7 +1,7 @@
 {
   "name": "df-client",
   "description": "client api for dokuflow.com",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "main": "dist/index.js",
   "repository": "git@github.com:jtanudjaja/df-client.git",
   "author": "jtanudjaja <jonathantanudjaja@gmail.com>",
