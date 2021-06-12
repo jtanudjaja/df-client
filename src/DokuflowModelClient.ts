@@ -18,9 +18,16 @@ export type FilterOperation<T, K extends keyof T> =
       value: T[K][];
     };
 
+export type Pagination = {
+  take?: number,
+  skip?: number,
+}
+
 export type GetListOptions<T, S extends keyof T> = {
   selections?: S[];
   filters?: FilterOperation<T, keyof T>[];
+  pagination?: Pagination
+  relations?: S[];
 };
 
 export type GetListResponse<T, S extends keyof T> = Promise<
@@ -84,13 +91,31 @@ class DokuflowModelClient<T> {
       url += `&select=${options.selections.join(',')}`;
     }
 
+    if (options.pagination) {
+      if (options.pagination.skip) {
+        url += `&skip=${options.pagination.skip}`
+      }
+      if (options.pagination.take) {
+        url += `&take=${options.pagination.take}`
+      }
+    }
+
+    if (options.relations) {
+      url += `&select=${options.relations.join(',')}`;
+    }
+
     return Axios.get(url);
   }
 
   async getFirst<S extends keyof DokuflowDocument<T>>(
-    options: GetListOptions<DokuflowDocument<T>, S>
+    options: Omit<GetListOptions<DokuflowDocument<T>, S>, 'pagination'>
   ) {
-    const listResponse = await this.getList(options);
+    const listResponse = await this.getList({
+      ...options,
+      pagination: {
+        take: 1
+      }
+    });
     if (
       listResponse.data &&
       Array.isArray(listResponse.data) &&
