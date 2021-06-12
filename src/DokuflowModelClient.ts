@@ -60,7 +60,10 @@ class DokuflowModelClient<T> {
     return Axios.get(this.getBaseUrl(documentId));
   }
 
-  getList<S extends keyof DokuflowDocument<T>, R extends keyof DokuflowDocument<T>>(
+  getList<
+    S extends keyof DokuflowDocument<T>,
+    R extends keyof DokuflowDocument<T>
+  >(
     options: GetListOptions<DokuflowDocument<T>, S, R>
   ): GetListResponse<DokuflowDocument<T>, S> {
     let url = this.getBaseUrl();
@@ -107,9 +110,10 @@ class DokuflowModelClient<T> {
     return Axios.get(url);
   }
 
-  async getFirst<S extends keyof DokuflowDocument<T>, R extends keyof DokuflowDocument<T>>(
-    options: Omit<GetListOptions<DokuflowDocument<T>, S, R>, 'pagination'>
-  ) {
+  async getFirst<
+    S extends keyof DokuflowDocument<T>,
+    R extends keyof DokuflowDocument<T>
+  >(options: Omit<GetListOptions<DokuflowDocument<T>, S, R>, 'pagination'>) {
     const listResponse = await this.getList({
       ...options,
       pagination: {
