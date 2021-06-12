@@ -23,11 +23,17 @@ export type Pagination = {
   skip?: number;
 };
 
+export enum Sort {
+  EARLIEST_FIRST = 'earliest_first',
+  LATEST_FIRST = 'latest_first',
+}
+
 export type GetListOptions<T, S extends keyof T, R extends keyof T> = {
   selections?: S[];
   filters?: FilterOperation<T, keyof T>[];
   pagination?: Pagination;
   relations?: R[];
+  sort?: Sort;
 };
 
 export type GetListResponse<T, S extends keyof T> = Promise<
@@ -105,6 +111,10 @@ class DokuflowModelClient<T> {
 
     if (options.relations) {
       url += `&relations=${options.relations.join(',')}`;
+    }
+
+    if (options.sort) {
+      url += `&sort=${options.sort}`;
     }
 
     return Axios.get(url);
