@@ -19,14 +19,14 @@ export type FilterOperation<T, K extends keyof T> =
     };
 
 export type Pagination = {
-  take?: number,
-  skip?: number,
-}
+  take?: number;
+  skip?: number;
+};
 
 export type GetListOptions<T, S extends keyof T> = {
   selections?: S[];
   filters?: FilterOperation<T, keyof T>[];
-  pagination?: Pagination
+  pagination?: Pagination;
   relations?: S[];
 };
 
@@ -93,10 +93,10 @@ class DokuflowModelClient<T> {
 
     if (options.pagination) {
       if (options.pagination.skip) {
-        url += `&skip=${options.pagination.skip}`
+        url += `&skip=${options.pagination.skip}`;
       }
       if (options.pagination.take) {
-        url += `&take=${options.pagination.take}`
+        url += `&take=${options.pagination.take}`;
       }
     }
 
@@ -113,8 +113,8 @@ class DokuflowModelClient<T> {
     const listResponse = await this.getList({
       ...options,
       pagination: {
-        take: 1
-      }
+        take: 1,
+      },
     });
     if (
       listResponse.data &&
