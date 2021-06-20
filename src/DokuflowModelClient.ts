@@ -124,7 +124,7 @@ class DokuflowModelClient<T> {
     }
 
     if (options.sortBy) {
-      url += `&sort=${options.sortBy.field}${
+      url += `&sortBy=${options.sortBy.field}${
         options.sortBy.desc ? '||desc' : ''
       }`;
     }
