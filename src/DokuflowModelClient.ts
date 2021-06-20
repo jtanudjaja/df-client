@@ -33,15 +33,20 @@ export type SortBy<T, K extends keyof T> = {
   desc?: boolean;
 };
 
-export type GetListOptions<T, S extends keyof T, R extends keyof T> = {
+export type GetListOptions<
+  T,
+  S extends keyof T,
+  R extends keyof T,
+  RQ extends keyof T
+> = {
   selections?: S[];
   filters?: FilterOperation<T, keyof T>[];
   pagination?: Pagination;
   relations?: R[];
   sort?: Sort;
   sortBy?: SortBy<T, keyof T>;
-  has?: S[];
-  doesntHave?: S[];
+  has?: RQ[];
+  doesntHave?: RQ[];
 };
 
 export type GetListResponse<T, S extends keyof T> = Promise<
@@ -76,9 +81,10 @@ class DokuflowModelClient<T> {
 
   getList<
     S extends keyof DokuflowDocument<T>,
-    R extends keyof DokuflowDocument<T>
+    R extends keyof DokuflowDocument<T>,
+    RQ extends keyof DokuflowDocument<T>
   >(
-    options: GetListOptions<DokuflowDocument<T>, S, R>
+    options: GetListOptions<DokuflowDocument<T>, S, R, RQ>
   ): GetListResponse<DokuflowDocument<T>, S> {
     let url = this.getBaseUrl();
 
@@ -144,8 +150,11 @@ class DokuflowModelClient<T> {
 
   async getFirst<
     S extends keyof DokuflowDocument<T>,
-    R extends keyof DokuflowDocument<T>
-  >(options: Omit<GetListOptions<DokuflowDocument<T>, S, R>, 'pagination'>) {
+    R extends keyof DokuflowDocument<T>,
+    RQ extends keyof DokuflowDocument<T>
+  >(
+    options: Omit<GetListOptions<DokuflowDocument<T>, S, R, RQ>, 'pagination'>
+  ) {
     const listResponse = await this.getList({
       ...options,
       pagination: {
