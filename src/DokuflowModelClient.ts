@@ -28,12 +28,18 @@ export enum Sort {
   LATEST_FIRST = 'latest_first',
 }
 
+export type SortBy<T, K extends keyof T> = {
+  field: K;
+  desc?: boolean;
+};
+
 export type GetListOptions<T, S extends keyof T, R extends keyof T> = {
   selections?: S[];
   filters?: FilterOperation<T, keyof T>[];
   pagination?: Pagination;
   relations?: R[];
   sort?: Sort;
+  sortBy?: SortBy<T, keyof T>;
 };
 
 export type GetListResponse<T, S extends keyof T> = Promise<
@@ -115,6 +121,12 @@ class DokuflowModelClient<T> {
 
     if (options.sort) {
       url += `&sort=${options.sort}`;
+    }
+
+    if (options.sortBy) {
+      url += `&sort=${options.sortBy.field}${
+        options.sortBy.desc ? '||desc' : ''
+      }`;
     }
 
     return Axios.get(url);

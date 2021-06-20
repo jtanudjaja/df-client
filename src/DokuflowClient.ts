@@ -1,6 +1,6 @@
 import DokuflowModelClient from './DokuflowModelClient';
 
-const dokuflowLaxBaseUrl = 'https://service.dokuflow.com/lax';
+const dokuflowLaxBaseUrl = 'https://lax.dokuflow.com';
 
 type DokuflowClientConfig = {
   spaceName: string;
