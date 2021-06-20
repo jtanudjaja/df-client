@@ -40,6 +40,8 @@ export type GetListOptions<T, S extends keyof T, R extends keyof T> = {
   relations?: R[];
   sort?: Sort;
   sortBy?: SortBy<T, keyof T>;
+  has?: S[];
+  doesntHave?: S[];
 };
 
 export type GetListResponse<T, S extends keyof T> = Promise<
@@ -127,6 +129,14 @@ class DokuflowModelClient<T> {
       url += `&sortBy=${options.sortBy.field}${
         options.sortBy.desc ? '||desc' : ''
       }`;
+    }
+
+    if (options.has) {
+      url += `&has=${options.has.join(',')}`;
+    }
+
+    if (options.doesntHave) {
+      url += `&doesntHave=${options.doesntHave.join(',')}`;
     }
 
     return Axios.get(url);
