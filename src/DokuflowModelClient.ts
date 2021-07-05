@@ -4,12 +4,12 @@ export type DokuflowDocument<T> = {
   ID: string;
 } & T;
 
-export type Operation = 'LIKE' | 'EQ' | 'IN';
+export type Operation = 'LIKE' | 'EQ' | 'IN' | 'NOT_LIKE' | 'NOT_EQ';
 
 export type FilterOperation<T, K extends keyof T> =
   | {
       field: K;
-      operation: 'LIKE' | 'EQ';
+      operation: 'LIKE' | 'EQ' | 'NOT_LIKE' | 'NOT_EQ';
       value: T[K];
     }
   | {
